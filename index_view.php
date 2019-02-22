@@ -7,13 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bulma-0.7.2/css/bulma.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- <script src="jquery-3.3.1.min.js"></script>
-    <script src="myscript.js"></script> -->
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="myscript.js"></script>
     
 </head>
 <body>
     <div class="container">
-        <form id="myform" action="form.php" class="form" method="POST">
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container">
+                <h1 class="title">
+                    This is KDA calculator
+                </h1>
+                <h2 class="subtitle">
+                    Fill the form with your total score that you play in one game to see how was your average kill per dead!
+                </h2>
+                </div>
+            </div>
+        </section>
+        <form id="myform" action="form.php" class="form" method="POST" enctype="multipart/form-data">
             <div class="field">
                 <label class="label">Name</label>
                 <label class="warning" id="lbl_name">
@@ -118,20 +130,26 @@
             </div>
             <div class="field is-grouped">
                 <p class="control">
-                    <button class="button is-primary" id="submit-btn">Submit</button>
+                    <button class="button is-primary" id="submit-btn" name="submit">Submit</button>
                 </p>
                 <p class="control">
                     <div class="file">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="csvFile">
+                            <input class="file-input" type="file" name="csvFile" id="csvFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                             <span class="file-cta">
                                 <span class="file-label">
-                                    Choose a file…
+                                    Upload Form
                                 </span>
+                            </span>
+                            <span class="file-name" style="display:none" id='filename'>
+                                
                             </span>
                         </label>
                     </div>
                 </p>
+            </div>
+            <div class='field'>
+                <a class="button is-link">Download Form</a>
             </div>
 
         </form>

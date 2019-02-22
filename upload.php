@@ -1,43 +1,41 @@
 <?php
     $target_dir = "uploads/";
     $target_file = $target_dir . basename($_FILES["csvFile"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $uploadOk = TRUE;
+    $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $uploadErr = "";
+
     // Check if image file is a actual image or fake image
-    if(isset($_POST["submit"])) {
+    if(isset($_POST["csvFile"])) {
         $check = getimagesize($_FILES["csvFile"]["tmp_name"]);
         if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
+            echo "File is an csv - " . $check["mime"] . ".";
+            $uploadOk = TRUE;
         }
     }
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
     // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-        echo "Sorry, your file is too large. (max 500000)";
-        $uploadOk = 0;
+    if ($_FILES["csvFile"]["size"] > 500000) {
+        $uploadErr = "Sorry, your file is too large. (max 500000)";
+        $uploadOk = FALSE;
     }
     // Allow certain file formats
-    if($imageFileType != "csv") {
-        echo "Sorry, only CSV file is allowed.";
-        $uploadOk = 0;
+    if($fileType != "csv") {
+        $uploadErr = "Sorry, only CSV file is allowed.";
+        $uploadOk = FALSE;
     }
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
     // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["csvFile"]["tmp_name"], $target_file)) {
+    else {
+        if (move_uploaded_file($_FILES["csvFile"]["tmp_name"], "uploads/".$_FILES["csvFile"]["name"])) {
             echo "The file ". basename( $_FILES["csvFile"]["name"]). " has been uploaded.";
+            $_SESSION['csv'] = $target_file;
         } else {
             echo "Sorry, there was an error uploading your file.";
         }
     }
+
+    $_SESSION['uploadStatus'] = $uploadOk;
+    if($uploadOk == 0){
+        $_SESSION['uploadErr'] = $uploadErr;
+    }
+
 ?>

@@ -1,13 +1,12 @@
 <?php
-    // session_unset();
     session_start();
     $nameErr = $lastNameErr = $usernameErr = $killErr = $deadErr = $assistErr = NULL;
     $killEmpty = $deadEmpty = $assistEmpty = NULL;
     $name = $lastName = $gender = $username = $kill = $dead = $assist = "";
     $error = FALSE;
+   
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // session_unset();
         if (empty($_POST["name"])) {
           $nameErr = TRUE;
           $error = TRUE;
@@ -38,11 +37,11 @@
             $kill = $_POST["kill"];
         }
 
-        if (empty($_POST["dead"])) {
+        if (empty($_POST["dead"]) && $_POST["dead"] !=0) {
           $deadErr = TRUE;
           $error = TRUE;
         } else {
-          if($_POST["dead"] >= 0){
+          if($_POST["dead"] >= 0 && $_POST["dead"] !=""){
             $dead = $_POST["dead"];
           } else {
             $deadErr = TRUE;
@@ -51,11 +50,12 @@
           
         }
 
-        if (empty($_POST["assist"])) {
+        if (empty($_POST["assist"]) && $_POST["assist"] != 0) {
+          echo $_POST["assist"];
           $assistErr = TRUE;
           $error = TRUE;
         } else {
-          if($_POST["assist"] >= 0){
+          if($_POST["assist"] >= 0 && $_POST["assist"] !=""){
             $assist = $_POST["assist"];
           } else {
             $assistErr = TRUE;
@@ -67,7 +67,7 @@
       }
 
       require('upload.php');
-
+      
       $_SESSION['error'] = $error;
       $_SESSION['nameErr'] = $nameErr;
       $_SESSION['lastNameErr']= $lastNameErr;
@@ -88,14 +88,19 @@
       $_SESSION['dead'] = $dead;
       $_SESSION['assist'] = $assist;
       
+      if($_SESSION['uploadStatus']){
+        header('Location: result.php');
+        die();
+      }
+
       if($error){
         header('Location: index.php');
         die();
       }
       
-      header('Location: result.php');
-      die();
-
-
+      if(isset($_POST["submit"])){
+        header('Location: result.php');
+        die();
+      }
 
 ?>
