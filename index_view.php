@@ -149,7 +149,7 @@
                 </p>
             </div>
             <div class='field'>
-                <a class="button is-link">Download Form</a>
+                <a class="button is-link" href="https://ufile.io/lmp2c" target="_blank">Download Form</a>
             </div>
 
         </form>
